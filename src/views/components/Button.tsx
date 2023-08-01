@@ -20,7 +20,7 @@ const MyButton: React.FC<MyButtonProps> = ({ text }) => {
 
   return (
     <>
-      <Button variant="text" onClick={buttonClick}>
+      <Button variant={"contained"} color="primary" onClick={buttonClick}>
         送信
       </Button>
       {isClicked && <p>クリックが押されました。ページを遷移します</p>}
