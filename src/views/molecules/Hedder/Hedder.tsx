@@ -36,7 +36,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <ChromeReaderModeIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
