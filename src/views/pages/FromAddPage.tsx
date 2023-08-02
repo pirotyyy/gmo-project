@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
-import ResponsiveAppBar from "../molecules/Hedder";
+import ResponsiveAppBar from "../molecules/Hedder/Hedder";
+
 import {
   Paper,
   TextField,
@@ -51,7 +52,6 @@ const FormAddPage: React.FC = () => {
     updatedItems[index] = { ...updatedItems[index], [name]: value };
     setFormItems(updatedItems);
   };
-
   const handleAddItem = () => {
     setFormItems([...formItems, { name: "", type: "text" }]);
     console.log(formItems);
