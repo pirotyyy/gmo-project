@@ -61,7 +61,7 @@ function ResponsiveAppBar() {
               textDecoration: "none"
             }}
           >
-            要件定義クン
+            要件整理クン
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
