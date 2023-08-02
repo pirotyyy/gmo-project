@@ -4,6 +4,7 @@ import ClientInputPage from './views/pages/ClientInputPage'
 import ResultPage from './views/pages/ResultPage'
 import ClientConfirmPage from './views/pages/ClientConfirmPage/ClientConfirmPage.tsx'
 import Chat from './views/pages/Chat'
+import FormAddPage from './views/pages/FromAddPage'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path='/confirm' Component={ClientConfirmPage} />
         <Route path='/result' Component={ResultPage} />
         <Route path='/chat' Component={Chat} />
+        <Route path='/add_form' Component={FormAddPage} />
       </Routes>
     </BrowserRouter>
   )
