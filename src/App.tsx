@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import ClientInputPage from './views/pages/ClientInputPage'
 import ResultPage from './views/pages/ResultPage'
-import ClientConfirmPage from './views/pages/ClientConfirmPage'
+import ClientConfirmPage from './views/pages/ClientConfirmPage/ClientConfirmPage.tsx'
 import Chat from './views/pages/Chat'
 
 function App() {
