@@ -2,6 +2,9 @@ import ResponsiveAppBar from "../../molecules/Hedder/Hedder.tsx"
 import Paper from '@mui/material/Paper';
 import "./ClientConfirmPage.css"
 import {useState,ChangeEvent} from "react";
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
 
 const ClientConfirmPage = () => {
   const [text,setText]=useState("");
@@ -26,10 +29,32 @@ const ClientConfirmPage = () => {
     e.target.style.height = e.target.scrollHeight + 'px';
   };
 
+  function getSteps() {
+    return [
+        '要件定義',
+        '要件抽出',
+        '結果'
+    ];
+  }
+
+  const [activeStep, setActiveStep] = useState(1);
+  const steps = getSteps();
+
   // ChatGptから分割された値を入れる
   return (
     <>
       <ResponsiveAppBar/>
+
+      <div className="stepper">
+        <Stepper activeStep={activeStep} alternativeLabel>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+      </div>
+
 
         <Paper elevation={5} sx={{ padding: 4, marginX: 24, marginY:6 }}>
           <h1 className="h1-confirm">要件抽出</h1>
