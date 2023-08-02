@@ -3,7 +3,7 @@ import { chat } from '../../chatgpt';
 
 const Chat = () => {
   const defaultMessage =
-    '以下の要件定義を、目的、期限、アプリ概要に分けて項目としてJSON形式で出力して下さい。項目がない場合は空欄として出力して下さい。';
+    '以下の要件定義を、目的、期限、アプリ概要に分けて全てtext項目としてJSON形式で出力して下さい。オブジェクトは一つにして入れ子構造にはしないでください。項目がない場合は空欄として出力して下さい。';
   const [message, setMessage] = useState<string>('');
   const [answer, setAnswer] = useState<string>('');
 
