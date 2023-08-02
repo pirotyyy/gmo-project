@@ -1,4 +1,4 @@
-.textarea textarea {
-  height: 400px;
-  width: 400px;
+.textarea {
+  width: 100%;
+  margin-bottom: 10px; /* ボタンとの間隔 */
 }

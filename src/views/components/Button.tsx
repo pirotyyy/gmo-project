@@ -1,6 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
+import { Box } from "@mui/material";
 
 type MyButtonProps = {
   text: string;
@@ -11,20 +12,27 @@ const MyButton: React.FC<MyButtonProps> = ({ text }) => {
   const navigate = useNavigate();
 
   const buttonClick = () => {
-    setIsClicked(true);
-    navigate("/confirm");
-    console.log(text);
+    if (text) {
+      setIsClicked(true);
+      navigate("/confirm");
+      console.log(text);
+    } else {
+      alert("テキストエリアに入力してください。");
+    }
   };
 
-  //   ここでchatgptに送信するための関数をimportする。
-
   return (
-    <>
-      <Button variant={"contained"} color="primary" onClick={buttonClick}>
+    <Box className="container">
+      <Button
+        variant={"contained"}
+        color="primary"
+        onClick={buttonClick}
+        style={{ borderRadius: "10px" }}
+      >
         送信
       </Button>
       {isClicked && <p>クリックが押されました。ページを遷移します</p>}
-    </>
+    </Box>
   );
 };
 
