@@ -1,11 +1,11 @@
-import TextArea from "../../components/TextArea";
+import TextArea from "../components/TextArea";
+import ResponsiveAppBar from "../molecules/Hedder";
 
 const ClientInputPage = () => {
   // クライアントが要件定義（原本）を入力するページ
   return (
     <>
-      <div>clientinputpage</div>
-
+      <ResponsiveAppBar />
       <TextArea />
     </>
   );
