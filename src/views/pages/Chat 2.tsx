@@ -1,24 +1,20 @@
-import { useState, ChangeEvent, FormEvent } from "react";
-import { chat } from "../../chatgpt";
-import { Button } from "@mui/base";
+import { useState, ChangeEvent, FormEvent } from 'react';
+import { chat } from '../../chatgpt';
 
 const Chat = () => {
-  const defaultMessage =
-    "以下の要件定義を、目的、期限、アプリ概要に分けて項目としてJSON形式で出力して下さい。項目がない場合は空欄として出力して下さい。";
-  const [message, setMessage] = useState<string>("");
-  const [answer, setAnswer] = useState<string>("");
+  const [message, setMessage] = useState<string>('');
+  const [answer, setAnswer] = useState<string>('');
 
   const handleMessageChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
-  };
+  }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const responseText = await chat(defaultMessage + message);
+    const responseText = await chat(message);
     setAnswer(responseText);
-    console.log(responseText);
-  };
+  }
 
   return (
     <div>
@@ -32,7 +28,7 @@ const Chat = () => {
           />
         </label>
         <div>
-          <Button type="submit">質問する</Button>
+          <button type="submit">質問する</button>
         </div>
       </form>
       {answer && (
@@ -43,6 +39,6 @@ const Chat = () => {
       )}
     </div>
   );
-};
+}
 
 export default Chat;
