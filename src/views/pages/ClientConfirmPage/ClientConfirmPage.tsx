@@ -1,10 +1,17 @@
 import ResponsiveAppBar from "../../molecules/Hedder.tsx"
 import Paper from '@mui/material/Paper';
 import "./ClientConfirmPage.css"
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
+import { useEffect } from "react";
 //import {useState} from "react";
 
 const ClientConfirmPage = () => {
   //const [text,setText]=useState("");
+  const responseText = useSelector((state: RootState) => state.responseText.value);
+  useEffect(() => {
+    console.log(responseText);
+  }, [responseText]);
 
   // ChatGptから分割された値を入れる
   return (
