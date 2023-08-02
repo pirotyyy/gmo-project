@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const chat = async (message: string) => {
-  const API_URL = 'https://api.openai.com/v1/';
-  const MODEL = 'gpt-3.5-turbo';
+  const API_URL = "https://api.openai.com/v1/";
+  const MODEL = "gpt-3.5-turbo";
   const API_KEY = import.meta.env.VITE_GPT_TOKEN;
 
   try {
@@ -14,17 +14,17 @@ export const chat = async (message: string) => {
         // 質問内容
         messages: [
           {
-            role: 'user',
-            content: message,
-          },
-        ],
+            role: "user",
+            content: message
+          }
+        ]
       },
       {
         // 送信する HTTP ヘッダー(認証情報)
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${API_KEY}`,
-        },
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${API_KEY}`
+        }
       }
     );
     // 回答の取得
