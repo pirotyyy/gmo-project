@@ -13,7 +13,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 
 interface RegistForm {
   userId: string
-  isClient: boolean
+  name:string
+  isAdmin: boolean
   password: string
 }
 
