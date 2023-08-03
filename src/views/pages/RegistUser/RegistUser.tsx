@@ -1,7 +1,8 @@
-import LoginHedder from "../../molecules/LoginHedder/LoginHedder.tsx"
+import LoginHedder from '../../molecules/LoginHedder/LoginHedder.tsx';
 import Paper from '@mui/material/Paper';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
+
+import { RootState } from '../../../redux/store';
 import { useEffect } from "react";
 import Switch from '@mui/material/Switch';
 import "./RegistUser.css"
@@ -39,7 +40,7 @@ const RegistUser = () => {
     console.log(responseText);
   }, [responseText]);
 
-  const handleSwitchChange = (event) => {
+  const handleSwitchChange = (event: any) => {
     setIsSwitchOn(event.target.checked);
     setRegistForm({
     ...registForm,
@@ -57,7 +58,7 @@ const RegistUser = () => {
       )
       navigate('/')
       setIsLoad(false)
-    } catch (error) {
+    } catch (error: any) {
       setError(error.response.data.message)
       setOpen(true)
       setIsLoad(false)
@@ -67,8 +68,7 @@ const RegistUser = () => {
 
   return (
     <>
-      <LoginHedder/>
-
+      <LoginHedder />
         <Paper elevation={5} sx={{ padding: 4, marginX: 24, marginY:6 }}>
           <h1 className="h1-confirm">新規登録</h1>
           <hr/>
@@ -106,7 +106,7 @@ const RegistUser = () => {
           )
         }
     </>
-  )
-}
+  );
+};
 
-export default RegistUser
+export default RegistUser;

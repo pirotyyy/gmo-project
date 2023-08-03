@@ -4,10 +4,10 @@ import {
   Paper,
   TextField,
   Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  // FormControl,
+  // InputLabel,
+  // Select,
+  // MenuItem,
   Grid,
   Container
 } from "@mui/material";
@@ -17,11 +17,8 @@ interface FormItem {
   type: "text" | "number";
 }
 interface CreateTemplateDto {
-  OperationType: string;
-  Keys: {
-    name: string;
-    format: string;
-  };
+  name: string;
+  format: string;
 }
 const FormAddPage: React.FC = () => {
   const [formItems, setFormItems] = useState<FormItem[]>([
@@ -37,15 +34,15 @@ const FormAddPage: React.FC = () => {
     updatedItems[index] = { ...updatedItems[index], [name]: value };
     setFormItems(updatedItems);
   };
-  const handleSelectChange = (
-    index: number,
-    event: ChangeEvent<HTMLSelectElement>
-  ) => {
-    const { name, value } = event.target;
-    const updatedItems = [...formItems];
-    updatedItems[index] = { ...updatedItems[index], [name]: value };
-    setFormItems(updatedItems);
-  };
+  // const handleSelectChange = (
+  //   index: number,
+  //   event: ChangeEvent<HTMLSelectElement>
+  // ) => {
+  //   const { name, value } = event.target;
+  //   const updatedItems = [...formItems];
+  //   updatedItems[index] = { ...updatedItems[index], [name]: value };
+  //   setFormItems(updatedItems);
+  // };
   const handleAddItem = () => {
     setFormItems([...formItems, { name: "", type: "text" }]);
     console.log(formItems);
@@ -60,22 +57,27 @@ const FormAddPage: React.FC = () => {
   const handleSave = async () => {
     const formItemNames = formItems.map((item) => item.name).join(",");
     const dto: CreateTemplateDto = {
-      OperationType: "PUT",
-      Keys: {
-        name: projectID,
-        format: formItemNames
-      }
+      name: projectID,
+      format: formItemNames
     };
     try {
       await axios.post(
-        "https://gx8hli4rth.execute-api.ap-northeast-1.amazonaws.com/dev/template",
+        "https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/template/",
         dto
       );
+      setFormItems([
+        {
+          name: "",
+          type: "text"
+        }
+      ]);
+      setProjectID("");
     } catch (err) {
       console.log(err);
     }
     console.log(`Project ID: '${projectID}',Form Item Names: ${formItemNames}`);
   };
+
   return (
     <div>
       <ResponsiveAppBar />
@@ -91,7 +93,7 @@ const FormAddPage: React.FC = () => {
           <h1>フォームを作成</h1>
           <TextField
             fullWidth
-            label="プロジェクトID"
+            label="プロジェクト名"
             variant="outlined"
             value={projectID}
             required
@@ -100,7 +102,7 @@ const FormAddPage: React.FC = () => {
           />
           {formItems.map((item, index) => (
             <Grid container spacing={3} key={index}>
-              <Grid item xs={4}>
+              <Grid item xs={8}>
                 <TextField
                   fullWidth
                   label="項目名"
@@ -109,22 +111,8 @@ const FormAddPage: React.FC = () => {
                   value={item.name}
                   required
                   style={{ marginBottom: "10px" }}
-                  onChange={(event) => handleInputChange(index, event)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(index, e)}
                 />
-              </Grid>
-              <Grid item xs={4}>
-                <FormControl fullWidth variant="outlined">
-                  <InputLabel>タイプ</InputLabel>
-                  <Select
-                    label="タイプ"
-                    name="type"
-                    value={item.type}
-                    onChange={(event) => handleSelectChange(index, event)}
-                  >
-                    <MenuItem value="text">文字</MenuItem>
-                    <MenuItem value="number">数字</MenuItem>
-                  </Select>
-                </FormControl>
               </Grid>
               <Grid item xs={4}>
                 {formItems.length > 1 && (

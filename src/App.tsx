@@ -16,6 +16,7 @@ function App() {
         <Route path='/confirm' Component={ClientConfirmPage} />
         <Route path='/result' Component={ResultPage} />
         <Route path='/add_form' Component={FormAddPage} />
+        <Route path='/list' Component={ShowAllProjects} />
         <Route path='/' Component={Login} />
         <Route path='/regist' Component={RegistUser} />
         <Route path='/allProjects' Component={ShowAllProjects} />
