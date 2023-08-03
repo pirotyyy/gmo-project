@@ -1,40 +1,66 @@
-import { Button, Paper } from "@mui/material";
+import { Box, Paper, Snackbar, TextField } from "@mui/material";
 import ResponsiveAppBar from "../molecules/Hedder/Hedder";
-import { useState, useRef } from "react";
+import { useState, ChangeEvent } from "react";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import LoadingButton from '@mui/lab/LoadingButton'
+import { useSelector } from 'react-redux';
+import { RootState } from "../../redux/store";
+
+interface saveDto {
+  projectId: string
+  userId: string | null
+  name: string
+  text: string
+}
 
 const ResultPage = () => {
   const location = useLocation();
+  const navigate = useNavigate()
 
-  const [isEditable, setIsEditable] = useState(false);
-  const [textAreaValue, setTextAreaValue] = useState(
-    Object.entries(location.state?.result || {})
-      .map(([key, value]) => `${key}:${value}`)
-      .join("\n")
+  const projectId = useSelector(
+    (state: RootState) => state.projectId.value
   );
 
-  const textAreaRef = useRef(null);
-  // const [resultText, setResultText] = useState();
+  const [saveForm, setSaveForm] = useState<saveDto>({
+    projectId: projectId,
+    userId: localStorage.getItem("userId") ? localStorage.getItem("userId") : "",
+    name: "",
+    text: Object.entries(location.state?.result || {})
+    .map(([key, value]) => `${key}:${value}`)
+    .join("\n")
+  })
 
-  // コピペの機能
+  const [isLoad, setIsLoad] = useState<boolean>(false)
+  const [isSnack, setIsSnack] = useState<boolean>(false)
 
-  const copyToClipboard = () => {
-    const textArea = textAreaRef.current;
-    if (textArea) {
-      textArea.select();
-      document.execCommand("copy");
+  const copyTextToClipboard = () => {
+    navigator.clipboard.writeText(saveForm.text)
+    .then(function() {
+      setIsSnack(true)
+      console.log('Async: Copying to clipboard was successful!');
+    }, function(err) {
+      console.error('Async: Could not copy text: ', err);
+    });
+  }
+  
+
+  const handleOnSubmit = async () => {
+    try {
+      setIsLoad(true)
+      await axios.put('https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project', saveForm)      
+      setIsLoad(false)
+      navigate('/list')
+    } catch (error: any) {
+      console.log(error)
     }
-  };
-
-  const handleTextAreaChange = (e) => {
-    setTextAreaValue(e.target.value);
-  };
+  }
 
   function getSteps() {
     return ["要件定義", "要件抽出", "結果"];
@@ -59,30 +85,49 @@ const ResultPage = () => {
         <h1 className="h1">生成結果</h1>
         <hr />
         <div className="container">
-          <textarea
-            ref={textAreaRef}
+          <TextField 
+            placeholder="プロジェクト名" 
+            required 
+            fullWidth
+            style={{ marginBottom: "10px"}}
+            value={saveForm.name} 
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setSaveForm({...saveForm, name: e.target.value})}></TextField>
+          <TextField
             placeholder=""
             required
-            rows={10}
-            value={textAreaValue}
-            readOnly={!isEditable}
-            onChange={isEditable ? handleTextAreaChange : null}
-          ></textarea>
+            fullWidth
+            multiline
+            value={saveForm.text}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setSaveForm({...saveForm, text: e.target.value})}
+          ></TextField>
         </div>
-        <Button>保存</Button>
-        {/* <Button variant="contained" color="primary" onClick={EditForm}>
-          {isEditable ? "編集終了" : "編集する"}
-        </Button> */}
-        <Tooltip title="Copy to Clipboard" placement="top" arrow>
-          <IconButton
-            color="primary"
-            size="small"
-            onClick={() => copyToClipboard()}
-          >
-            <ContentCopyIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
+        <Box display="flex" justifyContent="flex-end" marginTop={5}>
+            <LoadingButton loading={isLoad} variant='contained' onClick={handleOnSubmit} style={{marginRight: "5px"}}>保存</LoadingButton>
+            <Tooltip title="Copy to Clipboard" placement="top" arrow>
+              <IconButton
+                color="primary"
+                size="small"
+                onClick={() => copyTextToClipboard()}
+              >
+                <ContentCopyIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+        </Box>
       </Paper>
+      {
+        isSnack ? (
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            open={isSnack}
+            onClose={() => setIsSnack(false)}
+            message="Copied Text!!"
+            autoHideDuration={2000}
+            key={"topright"}
+          />
+        ) : (
+          <></>
+        )
+      }
     </>
   );
 };
