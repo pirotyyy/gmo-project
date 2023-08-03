@@ -9,7 +9,6 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import { useNavigate } from "react-router-dom";
-
 //import {useState} from "react";
 
 const ClientConfirmPage = () => {
