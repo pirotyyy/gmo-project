@@ -1,6 +1,7 @@
-import LoginHedder from "../../molecules/LoginHedder/LoginHedder.tsx"
+import LoginHedder from '../../molecules/LoginHedder/LoginHedder.tsx';
 import Paper from '@mui/material/Paper';
 import { useSelector } from 'react-redux';
+
 import { RootState } from '../../../store';
 import { useEffect } from "react";
 import Switch from '@mui/material/Switch';
@@ -67,8 +68,7 @@ const RegistUser = () => {
 
   return (
     <>
-      <LoginHedder/>
-
+      <LoginHedder />
         <Paper elevation={5} sx={{ padding: 4, marginX: 24, marginY:6 }}>
           <h1 className="h1-confirm">新規登録</h1>
           <hr/>
@@ -106,7 +106,7 @@ const RegistUser = () => {
           )
         }
     </>
-  )
-}
+  );
+};
 
-export default RegistUser
+export default RegistUser;

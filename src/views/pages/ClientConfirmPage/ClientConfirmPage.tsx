@@ -2,7 +2,7 @@ import ResponsiveAppBar from '../../molecules/Hedder/Hedder.tsx';
 import Paper from '@mui/material/Paper';
 import './ClientConfirmPage.css';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
+import { RootState } from '../../../redux/store.ts';
 import { useEffect } from 'react';
 import { useState, ChangeEvent } from 'react';
 import Stepper from '@mui/material/Stepper';
