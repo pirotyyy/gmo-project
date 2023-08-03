@@ -75,7 +75,7 @@ export default function ShowAllProjects() {
               {selectedProject && (
               <Paper elevation={5} sx={{ padding: 8, marginX: 6, marginY:6 }} >
                 <h1>~要件定義~</h1>
-                <h3>{selectedProject}</h3>
+                <h3 style={{ whiteSpace: 'pre-line'}}>{selectedProject}</h3>
               </Paper>
               )}
             </Typography>
