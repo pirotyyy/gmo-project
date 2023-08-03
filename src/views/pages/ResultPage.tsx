@@ -56,7 +56,7 @@ const ResultPage = () => {
       setIsLoad(true)
       await axios.put('https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project', saveForm)      
       setIsLoad(false)
-      navigate('/list')
+      navigate('/allProjects')
     } catch (error: any) {
       console.log(error)
     }
@@ -89,7 +89,7 @@ const ResultPage = () => {
             placeholder="プロジェクト名" 
             required 
             fullWidth
-            style={{ marginBottom: "10px"}}
+            style={{ marginBottom: "10px", marginTop: '15px'}}
             value={saveForm.name} 
             onChange={(e: ChangeEvent<HTMLInputElement>) => setSaveForm({...saveForm, name: e.target.value})}></TextField>
           <TextField

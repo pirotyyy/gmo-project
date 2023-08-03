@@ -12,9 +12,11 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import ChromeReaderModeIcon from "@mui/icons-material/ChromeReaderMode";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../../../redux/store";
+import { useSelector, useDispatch } from 'react-redux';
+import { setUserInfo } from "../../../redux/slice/userInfoSlice";
 
 const pages = ["一覧", "新規作成"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -39,7 +41,15 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+  const userInfo = useSelector(
+    (state: RootState) => state.userInfo.value
+  );
+  const handleLogout = () => {
+    dispatch(setUserInfo(null))
+    navigate("/")
+  }
 
   return (
     <AppBar position="sticky">
@@ -124,20 +134,26 @@ function ResponsiveAppBar() {
             要件定義クン
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              <Button
-                key={"list"}
-                onClick={() => navigate('/allProjects')}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                一覧
-              </Button>
-              <Button
-                key={"create"}
-                onClick={() => navigate('/input')}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                新規作成
-              </Button>
+            {
+              userInfo.isAdmin ?? (
+                <>
+                  <Button
+                    key={"list"}
+                    onClick={() => navigate('/allProjects')}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    一覧
+                  </Button>
+                  <Button
+                    key={"create"}
+                    onClick={() => navigate('/input')}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    新規作成
+                  </Button>
+                </>
+              )
+            }
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -164,11 +180,9 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem key={'logout'} onClick={handleLogout}>
+                <Typography textAlign="center">ログアウト</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

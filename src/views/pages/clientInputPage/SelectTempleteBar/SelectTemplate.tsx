@@ -49,6 +49,11 @@ const SelectTemplate: React.FC = (): JSX.Element => {
             value={selectedId}
             label='テンプレート'
             onChange={handleChange}
+            MenuProps={{
+              style: {
+                maxHeight: 300, // スクロールの最大高さを指定
+              },
+            }}
           >
             {responseTemplate.map((template) => {
               return (

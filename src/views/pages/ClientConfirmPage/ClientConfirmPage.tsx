@@ -76,7 +76,7 @@ const ClientConfirmPage = () => {
           {keys.map((key) => {
             return (
               <div>
-                <h2 className="h2-confirm">{key} </h2>
+                <h2 className="h2-confirm" style={{marginTop: '15px'}}>{key} </h2>
                 <TextField
                   placeholder={`${key}が抽出されませんでした。`}
                   required
@@ -91,7 +91,7 @@ const ClientConfirmPage = () => {
         </div>
         <br />
         <Box display="flex" justifyContent="flex-end" marginTop={4}>
-          <LoadingButton variant='contained' onClick={handleOutput} style={{marginRight: "5px"}}>保存</LoadingButton>
+          <LoadingButton variant='contained' onClick={handleOutput} style={{marginRight: "5px"}}>文書作成</LoadingButton>
         </Box>
       </Paper>
     </>

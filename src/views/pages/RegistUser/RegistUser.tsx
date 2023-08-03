@@ -4,12 +4,11 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../../../redux/store';
 import { useEffect } from "react";
-import Switch from '@mui/material/Switch';
 import "./RegistUser.css"
 import {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Alert, Snackbar, Box } from "@mui/material";
+import { Alert, Snackbar, Box, TextField, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 interface RegistForm {
@@ -20,7 +19,7 @@ interface RegistForm {
 }
 
 const RegistUser = () => {
-  const label = { inputProps: { 'aria-label': 'Switch demo' } };
+  // const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
   const [registForm, setRegistForm] = useState<RegistForm>({
     userId: "",
@@ -31,21 +30,26 @@ const RegistUser = () => {
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
   const [open, setOpen] = useState<boolean>(false)
-  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  // const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [office, setOffice] = useState("")
   const [pass, setPass] = useState<string>("");
 
   const navigate = useNavigate()
 
   const responseText = useSelector((state: RootState) => state.responseText.value);
   useEffect(() => {
+    setRegistForm({
+      ...registForm, isAdmin: office === 'engineer' ? true : false
+    })
+    console.log(registForm)
     console.log(responseText);
-  }, [responseText]);
+  }, [responseText, office]);
 
-  const handleSwitchChange = (event: any) => {
-    setIsSwitchOn(event.target.checked);
+  const handleSelectChange = (e: SelectChangeEvent) => {
+    setOffice(e.target.value)
     setRegistForm({
     ...registForm,
-    isAdmin: event.target.checked ? true : false,
+    isAdmin: e.target.value === "engineer" ? true : false,
     })
   };
 
@@ -84,22 +88,50 @@ const RegistUser = () => {
           <h1 className="h1-confirm">新規登録</h1>
           <hr/>
           <div className="container">
-            <h2 className="h2-confirm">ユーザID</h2>
-            <textarea placeholder="ID" required rows={1}
-            onChange={(e) => setRegistForm({ ...registForm, userId: e.target.value })}>
-            </textarea>
-            <h2 className="h2-confirm">ユーザネーム</h2>
-            <textarea placeholder="name" required rows={1}
-            onChange={(e) => setRegistForm({ ...registForm, name: e.target.value })}>
-            </textarea>
-            <h2 className="h2-confirm">クライアントですかぁ？</h2>
-            <Switch {...label} checked={isSwitchOn} onChange={handleSwitchChange}/>
-            <h2 className="h2-confirm">パスワード</h2>
-            <input className="input-regist" placeholder="pass" required type="password"
-            onChange={(e) => setRegistForm({ ...registForm, password: e.target.value })}/>
-            <h2 className="h2-confirm">パスワード再入力</h2>
-            <input className="input-regist" placeholder="pass" required type="password"
-            onChange={handleReInputPass}/>
+            <TextField 
+              fullWidth 
+              variant='outlined' 
+              required 
+              label='ユーザーID'
+              style={{marginTop: "15px"}}
+              onChange={(e) => setRegistForm({ ...registForm, userId: e.target.value })}>
+            </TextField>
+            <TextField 
+              fullWidth 
+              required
+              label='ユーザー名'
+              style={{marginTop: "15px"}}
+              onChange={(e) => setRegistForm({ ...registForm, name: e.target.value })}>
+            </TextField>
+            <FormControl fullWidth style={{marginTop: '15px'}}>
+              <InputLabel id='demo-simple-select-label'>部署</InputLabel>
+              <Select 
+                fullWidth 
+                label="部署" 
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
+                onChange={handleSelectChange}
+              >
+                <MenuItem value={"client"}>事業部</MenuItem>
+                <MenuItem value={"engineer"}>開発部</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField 
+              fullWidth 
+              className="input-regist" 
+              required 
+              label='パスワード'
+              type="password"
+              style={{marginTop: "15px"}}
+              onChange={(e) => setRegistForm({ ...registForm, password: e.target.value })}/>
+            <TextField 
+              fullWidth 
+              className="input-regist" 
+              required 
+              label='確認用パスワード'
+              type="password"
+              style={{marginTop: "15px"}}
+              onChange={handleReInputPass}/>
           </div>
           <br/>
           <Box display="flex" justifyContent="flex-end">

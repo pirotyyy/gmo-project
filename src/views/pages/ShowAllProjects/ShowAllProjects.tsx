@@ -14,6 +14,7 @@ import axios from "axios";
 import Grid from '@mui/material/Grid';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import Paper from '@mui/material/Paper';
+import { ListSubheader } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -29,7 +30,7 @@ export default function ShowAllProjects() {
   //const [mobileOpen, setMobileOpen] = React.useState(false);
   const [projects, setProjects] = React.useState<Project[]>([])
   const [selectedProject, setSelectedProject] = React.useState<string>("");
-  console.log(projects)
+  const [selectedIndex, setSelectedIndex] = React.useState(-1);
 
   useEffect(()=>{
     //promise状態（データ取得中）を回避
@@ -45,11 +46,17 @@ export default function ShowAllProjects() {
     <>
       <Hedder/>
       <Grid container>
-        <Grid item xs={3}>
-          <List>
-            {projects.map((project) => (
-              <ListItem key={project.projectId} onClick={() => setSelectedProject(project.text)} disablePadding>
-                <ListItemButton>
+        <Grid xs={3} sx={{height: '100%'}}>
+          <List style={{ maxHeight: '90vh', overflow: 'auto'}} subheader={<ListSubheader>プロジェクト一覧</ListSubheader>}>
+            {projects.map((project, index) => (
+              <ListItem 
+                key={project.projectId} 
+                onClick={() => {
+                  setSelectedIndex(index)
+                  setSelectedProject(project.text)
+                }} 
+                disablePadding>
+                <ListItemButton selected={selectedIndex === index}>
                   <ListItemIcon>
                     <AssignmentIcon/>
                   </ListItemIcon>
@@ -60,7 +67,7 @@ export default function ShowAllProjects() {
             ))}
           </List>
         </Grid>
-         <Divider orientation="vertical" flexItem/>
+        <Divider orientation="vertical" flexItem/>
 
         <Grid item xs={8}>
           <Box component="main"sx={{flexGrow:1, p:2, width:{ sm:`calc(100%-${drawerWidth}px)`}}}>
@@ -75,9 +82,6 @@ export default function ShowAllProjects() {
           </Box>
         </Grid>
       </Grid>
-      <Box>
-      </Box>
-
     </>
   );
 }
