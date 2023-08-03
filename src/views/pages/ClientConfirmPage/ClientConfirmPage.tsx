@@ -9,6 +9,8 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import { useNavigate } from "react-router-dom";
+import { Box, TextField } from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton'
 //import {useState} from "react";
 
 const ClientConfirmPage = () => {
@@ -75,21 +77,22 @@ const ClientConfirmPage = () => {
             return (
               <div>
                 <h2 className="h2-confirm">{key} </h2>
-                <textarea
+                <TextField
                   placeholder={`${key}が抽出されませんでした。`}
                   required
-                  rows={1}
+                  fullWidth
+                  multiline
                   value={json[key]}
-                  onChange={(e) => handleChange(e, key)}
-                ></textarea>
+                  onChange={(e: any) => handleChange(e, key)}
+                ></TextField>
               </div>
             );
           })}
         </div>
         <br />
-        <button className="button-confirm" onClick={handleOutput}>
-          出力
-        </button>
+        <Box display="flex" justifyContent="flex-end" marginTop={4}>
+          <LoadingButton variant='contained' onClick={handleOutput} style={{marginRight: "5px"}}>保存</LoadingButton>
+        </Box>
       </Paper>
     </>
   );
