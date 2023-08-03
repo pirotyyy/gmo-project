@@ -48,7 +48,7 @@ const Login = () => {
       console.log(getMeRes.data);
 
       if (getMeRes.data.isAdmin === false) {
-        navigate('/list');
+        navigate('/allProjects');
       } else {
         navigate('/add_form');
       }
@@ -102,7 +102,7 @@ const Login = () => {
               アカウントをお持ちでない？
             </Grid>
             <Grid item xs={7} justifyContent={"center"}>
-              <Link href='/regist'>新規登録</Link>
+              <Link href='/signup'>新規登録</Link>
             </Grid>
           </Grid>
         </Box>
