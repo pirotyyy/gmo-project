@@ -12,8 +12,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import ChromeReaderModeIcon from "@mui/icons-material/ChromeReaderMode";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../../../redux/store";
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setUserInfo } from "../../../redux/slice/userInfoSlice";
 
 const pages = ["一覧", "新規作成"];
@@ -43,9 +42,6 @@ function ResponsiveAppBar() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const userInfo = useSelector(
-    (state: RootState) => state.userInfo.value
-  );
   const handleLogout = () => {
     dispatch(setUserInfo(null))
     navigate("/")
@@ -134,26 +130,20 @@ function ResponsiveAppBar() {
             要件定義クン
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {
-              userInfo.isAdmin ?? (
-                <>
-                  <Button
-                    key={"list"}
-                    onClick={() => navigate('/allProjects')}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
-                    一覧
-                  </Button>
-                  <Button
-                    key={"create"}
-                    onClick={() => navigate('/input')}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
-                    新規作成
-                  </Button>
-                </>
-              )
-            }
+            <Button
+              key={"list"}
+              onClick={() => navigate('/allProjects')}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              一覧
+            </Button>
+            <Button
+              key={"create"}
+              onClick={() => navigate('/input')}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              新規作成
+            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
