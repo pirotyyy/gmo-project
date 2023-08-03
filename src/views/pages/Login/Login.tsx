@@ -6,7 +6,6 @@ import axios from "axios";
 import { Alert, Box, Snackbar, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate } from "react-router-dom";
-// import CircularProgress from "@mui/material/CircularProgress";
 
 interface LoginForm {
   userId: string
@@ -29,7 +28,7 @@ const Login = () => {
       await axios.post(
         'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/auth/login',
         loginForm
-      ) 
+      )
       // 一覧画面が用意できたらパスを変更
       navigate('/input')
       setIsLoad(false)
@@ -44,7 +43,6 @@ const Login = () => {
   return (
     <>
       <LoginHedder/>
-
         <Paper elevation={5} sx={{ padding: 4, marginX: 50, marginY:6 }}>
           <h1 className="h1-confirm">ログイン</h1>
           <hr/>
@@ -69,7 +67,7 @@ const Login = () => {
             />
           </Box>
           <br/>
-          <Box display="flex" justifyContent="flex-end"> 
+          <Box display="flex" justifyContent="flex-end">
             <LoadingButton loading={isLoad} variant="contained" onClick={handleSubmit}>ログイン</LoadingButton>
           </Box>
         </Paper>

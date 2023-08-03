@@ -3,27 +3,67 @@ import Paper from '@mui/material/Paper';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
 import { useEffect } from "react";
-import {ChangeEvent} from "react";
 import Switch from '@mui/material/Switch';
 import "./RegistUser.css"
-// import CircularProgress from "@mui/material/CircularProgress";
+import {useState} from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Alert, Snackbar, Box } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+
+interface RegistForm {
+  userId: string
+  isClient: boolean
+  password: string
+}
 
 const RegistUser = () => {
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-  //const [text,setText]=useState("");
+  const [registForm, setRegistForm] = useState<RegistForm>({
+    userId: "",
+    name: "",
+    isAdmin: false,
+    password: "",
+  })
+  const [isLoad, setIsLoad] = useState<boolean>(false);
+  const [error, setError] = useState(null);
+  const [open, setOpen] = useState<boolean>(false)
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+
+  const navigate = useNavigate()
+
   const responseText = useSelector((state: RootState) => state.responseText.value);
   useEffect(() => {
     console.log(responseText);
   }, [responseText]);
 
-  const handleChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
-    e.target.style.height = 'auto';
-    e.target.style.height = e.target.scrollHeight + 'px';
+  const handleSwitchChange = (event) => {
+    setIsSwitchOn(event.target.checked);
+    setRegistForm({
+    ...registForm,
+    isAdmin: event.target.checked ? true : false,
+    })
   };
 
-  // ChatGptから分割された値を入れる
+  const handleSubmit = async () => {
+    setIsLoad(true)
+    console.log(registForm)
+    try {
+      await axios.post(
+        "https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/user",
+        registForm
+      )
+      navigate('/')
+      setIsLoad(false)
+    } catch (error) {
+      setError(error.response.data.message)
+      setOpen(true)
+      setIsLoad(false)
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <LoginHedder/>
@@ -33,19 +73,37 @@ const RegistUser = () => {
           <hr/>
           <div className="container">
             <h2 className="h2-confirm">ユーザID</h2>
-            <textarea placeholder="ID" required rows={1}>
+            <textarea placeholder="ID" required rows={1}
+            onChange={(e) => setRegistForm({ ...registForm, userId: e.target.value })}>
             </textarea>
-            <h2 className="h2-confirm">あなたはクライアント(文章考えて)</h2>
-            <Switch {...label} />
+            <h2 className="h2-confirm">ユーザネーム</h2>
+            <textarea placeholder="name" required rows={1}
+            onChange={(e) => setRegistForm({ ...registForm, name: e.target.value })}>
+            </textarea>
+            <h2 className="h2-confirm">クライアントですかぁ？</h2>
+            <Switch {...label} checked={isSwitchOn} onChange={handleSwitchChange}/>
             <h2 className="h2-confirm">パスワード</h2>
-            <input className="input-regist" placeholder="pass" required type="password"/>
+            <input className="input-regist" placeholder="pass" required type="password"
+            onChange={(e) => setRegistForm({ ...registForm, password: e.target.value })}/>
             <h2 className="h2-confirm">パスワード再入力</h2>
             <input className="input-regist" placeholder="pass" required type="password"/>
           </div>
           <br/>
-          <button className="button-confirm">登録</button>
+          <Box display="flex" justifyContent="flex-end">
+            <LoadingButton loading={isLoad} variant="contained" onClick={handleSubmit}>登録</LoadingButton>
+          </Box>
         </Paper>
-        {/* <CircularProgress className="loading" style={{width:"150px", height:"150px"}}/> */}
+        {
+          error ? (
+            <Snackbar anchorOrigin={{ vertical: "top", horizontal: "right" }} open={open} autoHideDuration={6000} onClose={() => {setOpen(false)}}>
+              <Alert onClose={() => {setOpen(false)}} severity="error" sx={{ width: '100%' }}>
+                {error}
+              </Alert>
+            </Snackbar>
+          ) : (
+            <></>
+          )
+        }
     </>
   )
 }
