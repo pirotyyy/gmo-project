@@ -12,8 +12,9 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import ChromeReaderModeIcon from "@mui/icons-material/ChromeReaderMode";
+import { useNavigate } from "react-router-dom";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["一覧", "新規作成"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
@@ -38,6 +39,8 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const navigate = useNavigate()
 
   return (
     <AppBar position="sticky">
@@ -122,22 +125,32 @@ function ResponsiveAppBar() {
             要件定義クン
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={"list"}
+                onClick={() => navigate('/')}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                一覧
               </Button>
-            ))}
+              <Button
+                key={"create"}
+                onClick={() => navigate('/input')}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                新規作成
+              </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
+                <Box display={"flex"} justifyContent={"center"}>
+                  <Avatar>{localStorage.getItem('userId')![0].toUpperCase()}</Avatar> 
+                  {
+                    localStorage.getItem('userId')
+                  }
+                </Box>
+                </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
