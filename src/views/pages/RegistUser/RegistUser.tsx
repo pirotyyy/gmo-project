@@ -2,7 +2,7 @@ import LoginHedder from '../../molecules/LoginHedder/LoginHedder.tsx';
 import Paper from '@mui/material/Paper';
 import { useSelector } from 'react-redux';
 
-import { RootState } from '../../../store';
+import { RootState } from '../../../redux/store';
 import { useEffect } from "react";
 import Switch from '@mui/material/Switch';
 import "./RegistUser.css"
