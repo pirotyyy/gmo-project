@@ -42,12 +42,12 @@ const SelectTemplate: React.FC = (): JSX.Element => {
     <>
       {responseTemplate ? (
         <FormControl fullWidth>
-          <InputLabel id='demo-simple-select-label'>Template</InputLabel>
+          <InputLabel id='demo-simple-select-label'>テンプレート</InputLabel>
           <Select
             labelId='demo-simple-select-label'
             id='demo-simple-select'
             value={selectedId}
-            label='Template'
+            label='テンプレート'
             onChange={handleChange}
           >
             {responseTemplate.map((template) => {
