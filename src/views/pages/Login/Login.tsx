@@ -64,6 +64,7 @@ const Login = () => {
               value={loginForm.password}
               onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
               fullWidth
+              type="password"
             />
           </Box>
           <br/>
