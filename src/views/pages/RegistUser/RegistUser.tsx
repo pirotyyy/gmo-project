@@ -29,10 +29,10 @@ const RegistUser = () => {
     password: "",
   })
   const [isLoad, setIsLoad] = useState<boolean>(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
   const [open, setOpen] = useState<boolean>(false)
   const [isSwitchOn, setIsSwitchOn] = useState(false);
-  const [pass, setPass] = useState("");
+  const [pass, setPass] = useState<string>("");
 
   const navigate = useNavigate()
 

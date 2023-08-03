@@ -48,7 +48,7 @@ export default function ShowAllProjects() {
         <Grid item xs={3}>
           <List>
             {projects.map((project) => (
-              <ListItem key={project} onClick={() => setSelectedProject(project.text)} disablePadding>
+              <ListItem key={project.projectId} onClick={() => setSelectedProject(project.text)} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
                     <AssignmentIcon/>
