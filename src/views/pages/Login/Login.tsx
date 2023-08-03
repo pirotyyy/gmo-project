@@ -25,10 +25,22 @@ const Login = () => {
   const handleSubmit = async () => {
     setIsLoad(true)
     try {
-      await axios.post(
+      const loginRes = await axios.post(
         'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/auth/login',
         loginForm
       )
+      localStorage.setItem('access_token', loginRes.data.token)
+
+      const getMeRes = await axios.get(
+        'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/user/getme',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        }
+      )
+
+      localStorage.setItem('userId', getMeRes.data.userId)
       // 一覧画面が用意できたらパスを変更
       navigate('/input')
       setIsLoad(false)
