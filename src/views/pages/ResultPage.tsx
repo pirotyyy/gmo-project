@@ -1,22 +1,44 @@
-import { Paper } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import ResponsiveAppBar from "../molecules/Hedder/Hedder";
 import { useState, useRef } from "react";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import { useLocation } from "react-router-dom";
 
 const ResultPage = () => {
+  const location = useLocation();
+
   const [isEditable, setIsEditable] = useState(false);
+  const [textAreaValue, setTextAreaValue] = useState(
+    Object.entries(location.state?.result || {})
+      .map(([key, value]) => `${key}:${value}`)
+      .join("\n")
+  );
+
   const textAreaRef = useRef(null);
+  // const [resultText, setResultText] = useState();
+  const resultText = location.state?.result;
 
   const EditForm = () => {
     setIsEditable((prev: boolean) => !prev);
   };
 
-  const handleCopyClick = () => {
+  // コピペの機能
+
+  const copyToClipboard = () => {
     const textArea = textAreaRef.current;
-    textArea.select();
-    document.execCommand("copy");
+    if (textArea) {
+      textArea.select();
+      document.execCommand("copy");
+    }
+  };
+
+  const handleTextAreaChange = (e) => {
+    setTextAreaValue(e.target.value);
   };
 
   function getSteps() {
@@ -43,20 +65,30 @@ const ResultPage = () => {
         <hr />
         <div className="container">
           <textarea
+            ref={textAreaRef}
             placeholder=""
             required
             rows={10}
-            value=""
+            value={textAreaValue}
             readOnly={!isEditable}
-            onClick={EditForm}
+            onChange={isEditable ? handleTextAreaChange : null}
           ></textarea>
         </div>
-        <button onClick={handleCopyClick}>コピペ</button>
+        <Button>保存</Button>
+        {/* <Button variant="contained" color="primary" onClick={EditForm}>
+          {isEditable ? "編集終了" : "編集する"}
+        </Button> */}
+        <Tooltip title="Copy to Clipboard" placement="top" arrow>
+          <IconButton
+            color="primary"
+            size="small"
+            onClick={() => copyToClipboard()}
+          >
+            <ContentCopyIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </Paper>
-
-      {/* 以下要件中質 */}
     </>
   );
 };
-
 export default ResultPage;
