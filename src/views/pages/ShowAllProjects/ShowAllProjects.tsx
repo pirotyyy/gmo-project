@@ -34,7 +34,7 @@ export default function ShowAllProjects() {
   useEffect(()=>{
     //promise状態（データ取得中）を回避
     const fetchPosts= async ()=>{
-      const result= await axios.get("https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project/test_nest")
+      const result= await axios.get(`https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project/${localStorage.getItem('userId')}`)
       console.log(result)
       setProjects(result.data)
     }
@@ -48,7 +48,7 @@ export default function ShowAllProjects() {
         <Grid item xs={3}>
           <List>
             {projects.map((project) => (
-              <ListItem key={project} onClick={() => setSelectedProject(project.text)} disablePadding>
+              <ListItem key={project.projectId} onClick={() => setSelectedProject(project.text)} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
                     <AssignmentIcon/>

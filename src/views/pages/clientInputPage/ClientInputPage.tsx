@@ -15,6 +15,7 @@ import { setResponseTemplate } from '../../../redux/slice/responseTemplateSlice'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { setProjectId } from '../../../redux/slice/projectIdSlice';
 
 const ClientInputPage = () => {
   const API_URL =
@@ -47,13 +48,15 @@ const ClientInputPage = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoad(true);
-    await axios.post(
+    const res = await axios.post(
       'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project',
       {
-        userId: 'test_nest',
+        userId: localStorage.getItem('userId'),
         templateId: selectedTemplate.templateId,
       }
     );
+
+    dispatch(setProjectId(res.data.projectId))
 
     const responseText = await chat(message + defaultMessage);
     dispatch(setResponseText(responseText));
