@@ -6,7 +6,6 @@ import axios from "axios";
 import { Alert, Box, Snackbar, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate } from "react-router-dom";
-// import CircularProgress from "@mui/material/CircularProgress";
 
 interface LoginForm {
   userId: string
@@ -26,10 +25,22 @@ const Login = () => {
   const handleSubmit = async () => {
     setIsLoad(true)
     try {
-      await axios.post(
+      const loginRes = await axios.post(
         'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/auth/login',
         loginForm
-      ) 
+      )
+      localStorage.setItem('access_token', loginRes.data.token)
+
+      const getMeRes = await axios.get(
+        'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/user/getme',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        }
+      )
+
+      localStorage.setItem('userId', getMeRes.data.userId)
       // 一覧画面が用意できたらパスを変更
       navigate('/input')
       setIsLoad(false)
@@ -44,7 +55,6 @@ const Login = () => {
   return (
     <>
       <LoginHedder/>
-
         <Paper elevation={5} sx={{ padding: 4, marginX: 50, marginY:6 }}>
           <h1 className="h1-confirm">ログイン</h1>
           <hr/>
@@ -66,10 +76,11 @@ const Login = () => {
               value={loginForm.password}
               onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
               fullWidth
+              type="password"
             />
           </Box>
           <br/>
-          <Box display="flex" justifyContent="flex-end"> 
+          <Box display="flex" justifyContent="flex-end">
             <LoadingButton loading={isLoad} variant="contained" onClick={handleSubmit}>ログイン</LoadingButton>
           </Box>
         </Paper>
