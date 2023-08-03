@@ -6,6 +6,8 @@ import axios from "axios";
 import { Alert, Box, Snackbar, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "../../../redux/slice/userInfoSlice.ts";
 
 interface LoginForm {
   userId: string
@@ -13,6 +15,8 @@ interface LoginForm {
 }
 
 const Login = () => {
+  const dispatch = useDispatch();
+
   const [loginForm, setLoginForm] = useState<LoginForm>({
     userId: "",
     password: "",
@@ -39,6 +43,7 @@ const Login = () => {
           }
         }
       )
+      dispatch(setUserInfo(getMeRes.data))
 
       localStorage.setItem('userId', getMeRes.data.userId)
       // 一覧画面が用意できたらパスを変更

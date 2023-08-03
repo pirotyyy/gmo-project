@@ -19,12 +19,22 @@ import LoadingButton from '@mui/lab/LoadingButton';
 const ClientInputPage = () => {
   const API_URL =
     'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/template/all';
+
   const selectedTemplate = useSelector(
     (state: RootState) => state.selectedTemplate.value
   );
+
+  const userInfo = useSelector(
+    (state: RootState) => state.userInfo.value
+  );
+
+  console.log(userInfo)
+
+
   const defaultMessage = selectedTemplate
     ? `以上の文章から、${selectedTemplate.format} だけを抜き出して、JSON形式で出力してください。keyとvalueは文字列で出力してください。抜き出せないときは“”で出力してください。`
     : '';
+    
   const [message, setMessage] = useState<string>('');
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const handleMessageChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -57,7 +67,6 @@ const ClientInputPage = () => {
       try {
         const response = await axios.get(API_URL);
         dispatch(setResponseTemplate(response.data));
-        // console.log(response)
       } catch (error) {
         console.log(error);
       }
