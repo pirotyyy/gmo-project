@@ -32,6 +32,7 @@ const RegistUser = () => {
   const [error, setError] = useState(null);
   const [open, setOpen] = useState<boolean>(false)
   const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [pass, setPass] = useState("");
 
   const navigate = useNavigate()
 
@@ -48,8 +49,18 @@ const RegistUser = () => {
     })
   };
 
+  const handleReInputPass = (event:any)=>{
+    setPass(event.target.value)
+  }
+
   const handleSubmit = async () => {
     setIsLoad(true)
+    if(pass!=registForm.password){
+      setError("パスワードが一致しません");
+      setOpen(true);
+      setIsLoad(false)
+      return;
+    }
     console.log(registForm)
     try {
       await axios.post(
@@ -87,7 +98,8 @@ const RegistUser = () => {
             <input className="input-regist" placeholder="pass" required type="password"
             onChange={(e) => setRegistForm({ ...registForm, password: e.target.value })}/>
             <h2 className="h2-confirm">パスワード再入力</h2>
-            <input className="input-regist" placeholder="pass" required type="password"/>
+            <input className="input-regist" placeholder="pass" required type="password"
+            onChange={handleReInputPass}/>
           </div>
           <br/>
           <Box display="flex" justifyContent="flex-end">
