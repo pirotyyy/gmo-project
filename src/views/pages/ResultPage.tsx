@@ -21,11 +21,6 @@ const ResultPage = () => {
 
   const textAreaRef = useRef(null);
   // const [resultText, setResultText] = useState();
-  const resultText = location.state?.result;
-
-  const EditForm = () => {
-    setIsEditable((prev: boolean) => !prev);
-  };
 
   // コピペの機能
 

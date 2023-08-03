@@ -111,7 +111,7 @@ const FormAddPage: React.FC = () => {
                   value={item.name}
                   required
                   style={{ marginBottom: "10px" }}
-                  onChange={(event) => handleInputChange(index, event)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(index, e)}
                 />
               </Grid>
               <Grid item xs={4}>

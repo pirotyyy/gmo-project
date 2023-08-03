@@ -44,7 +44,7 @@ const Login = () => {
       // 一覧画面が用意できたらパスを変更
       navigate('/input')
       setIsLoad(false)
-    } catch (error) {
+    } catch (error: any) {
       setError(error.response.data.message)
       setOpen(true)
       setIsLoad(false)

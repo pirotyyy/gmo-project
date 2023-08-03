@@ -40,7 +40,7 @@ const RegistUser = () => {
     console.log(responseText);
   }, [responseText]);
 
-  const handleSwitchChange = (event) => {
+  const handleSwitchChange = (event: any) => {
     setIsSwitchOn(event.target.checked);
     setRegistForm({
     ...registForm,
@@ -58,7 +58,7 @@ const RegistUser = () => {
       )
       navigate('/')
       setIsLoad(false)
-    } catch (error) {
+    } catch (error: any) {
       setError(error.response.data.message)
       setOpen(true)
       setIsLoad(false)
