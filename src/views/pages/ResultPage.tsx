@@ -33,7 +33,7 @@ const ResultPage = () => {
     userId: localStorage.getItem("userId") ? localStorage.getItem("userId") : "",
     name: "",
     text: Object.entries(location.state?.result || {})
-    .map(([key, value]) => `${key}:${value}`)
+    .map(([key, value]) => `${key}:\n${value}`)
     .join("\n")
   })
 
