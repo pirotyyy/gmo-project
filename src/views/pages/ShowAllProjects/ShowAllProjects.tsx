@@ -46,7 +46,7 @@ export default function ShowAllProjects() {
     <>
       <Hedder/>
       <Grid container>
-        <Grid xs={3} sx={{height: '100%'}}>
+        <Grid item xs={3} sx={{height: '100%'}}>
           <List style={{ maxHeight: '90vh', overflow: 'auto'}} subheader={<ListSubheader>プロジェクト一覧</ListSubheader>}>
             {projects.map((project, index) => (
               <ListItem 
