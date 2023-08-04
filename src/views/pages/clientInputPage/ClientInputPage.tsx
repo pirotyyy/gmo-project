@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { setProjectId } from '../../../redux/slice/projectIdSlice';
+import { setClientMessage } from '../../../redux/slice/clientMessageSlice';
 
 const ClientInputPage = () => {
   const API_URL =
@@ -28,9 +29,6 @@ const ClientInputPage = () => {
   const userInfo = useSelector(
     (state: RootState) => state.userInfo.value
   );
-
-  console.log(userInfo)
-
 
   const defaultMessage = selectedTemplate
     ? `以上の文章から、${selectedTemplate.format} だけを抜き出して、JSON形式で出力してください。keyとvalueは文字列で出力してください。抜き出せないときは“”で出力してください。`
@@ -51,14 +49,18 @@ const ClientInputPage = () => {
     const res = await axios.post(
       'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project',
       {
-        userId: localStorage.getItem('userId'),
+        // userId: localStorage.getItem('userId'),
+        userId: userInfo.userId,
         templateId: selectedTemplate.templateId,
       }
     );
 
     dispatch(setProjectId(res.data.projectId))
 
-    const responseText = await chat(message + defaultMessage);
+    const clientMessage = message + defaultMessage
+    dispatch(setClientMessage(clientMessage))
+
+    const responseText = await chat(clientMessage);
     dispatch(setResponseText(responseText));
     console.log(selectedTemplate);
     navigate('/confirm');
@@ -112,7 +114,7 @@ const ClientInputPage = () => {
               required
               fullWidth
               multiline
-              rows={5}
+              rows={8}
               variant='outlined'
               margin='dense'
               value={message}

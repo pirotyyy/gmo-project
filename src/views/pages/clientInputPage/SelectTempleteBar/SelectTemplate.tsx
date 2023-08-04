@@ -57,7 +57,7 @@ const SelectTemplate: React.FC = (): JSX.Element => {
           >
             {responseTemplate.map((template) => {
               return (
-                <MenuItem value={template.templateId}>{template.name}</MenuItem>
+                <MenuItem key={template.templateId} value={template.templateId}>{template.name}</MenuItem>
               );
             })}
           </Select>
