@@ -45,6 +45,7 @@ function ResponsiveAppBar() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleLogout = () => {
+    localStorage.removeItem('access_token')
     dispatch(setUserInfo(null))
     navigate("/")
   }
