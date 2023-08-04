@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import "./RegistUser.css"
 import {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import { Alert, Snackbar, Box, TextField, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from "@mui/material";
+import { Alert, Snackbar, Box, TextField, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent, Grid, Link } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { apiClient } from '../../../libs/apiClient.ts';
 
@@ -134,6 +134,16 @@ const RegistUser = () => {
               onChange={handleReInputPass}/>
           </div>
           <br/>
+          <Box display='flex' >
+          <Grid container display={"flex"}>
+            <Grid item xs={3} marginLeft={'15px'}>
+              アカウントをお持ちですか？
+            </Grid>
+            <Grid item xs={7}>
+              <Link href='/'>ログイン</Link>
+            </Grid>
+          </Grid>
+        </Box>
           <Box display="flex" justifyContent="flex-end">
             <LoadingButton loading={isLoad} variant="contained" onClick={handleSubmit}>登録</LoadingButton>
           </Box>
