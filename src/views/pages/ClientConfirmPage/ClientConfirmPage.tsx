@@ -3,7 +3,6 @@ import Paper from '@mui/material/Paper';
 import './ClientConfirmPage.css';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
-import { useEffect } from 'react';
 import { useState, ChangeEvent } from 'react';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
