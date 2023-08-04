@@ -63,7 +63,12 @@ const FormAddPage: React.FC = () => {
     try {
       await apiClient.post(
         "https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/template/",
-        dto
+        dto,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        }
       );
       setFormItems([
         {
