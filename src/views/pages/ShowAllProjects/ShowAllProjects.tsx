@@ -15,8 +15,10 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import Paper from '@mui/material/Paper';
 import { ListSubheader } from '@mui/material';
 import { apiClient } from '../../../libs/apiClient';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
 
-const drawerWidth = 240;
+// const drawerWidth = 240;
 
 interface Project {
   name: string
@@ -32,15 +34,17 @@ export default function ShowAllProjects() {
   const [selectedProject, setSelectedProject] = React.useState<string>("");
   const [selectedIndex, setSelectedIndex] = React.useState(-1);
 
+  const userInfo = useSelector((state: RootState) => state.userInfo.value);
+
   useEffect(()=>{
     //promise状態（データ取得中）を回避
     const fetchPosts= async ()=>{
-      const result= await apiClient.get(`https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project/${localStorage.getItem('userId')}`)
+      const result= await apiClient.get(`https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project/${userInfo.userId}`)
       console.log(result)
       setProjects(result.data)
     }
     fetchPosts();
-  },[])
+  },[userInfo])
 
   return (
     <>
@@ -69,13 +73,13 @@ export default function ShowAllProjects() {
         </Grid>
         <Divider orientation="vertical" flexItem/>
 
-        <Grid item xs={8}>
-          <Box component="main"sx={{flexGrow:1, p:2, width:{ sm:`calc(100%-${drawerWidth}px)`}}}>
+        <Grid item xs={8} style={{ maxHeight: '90vh', overflow: 'auto'}}>
+          <Box component="main">
             <Typography paragraph>
               {selectedProject && (
               <Paper elevation={5} sx={{ padding: 8, marginX: 6, marginY:6 }} >
-                <h1>~要件定義~</h1>
-                <h3 style={{ whiteSpace: 'pre-line'}}>{selectedProject}</h3>
+                <b>~要件定義~</b>
+                <b style={{ whiteSpace: 'pre-line'}}>{selectedProject}</b>
               </Paper>
               )}
             </Typography>

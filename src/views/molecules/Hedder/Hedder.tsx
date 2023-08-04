@@ -14,6 +14,8 @@ import ChromeReaderModeIcon from "@mui/icons-material/ChromeReaderMode";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { setUserInfo } from "../../../redux/slice/userInfoSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 const pages = ["一覧", "新規作成"];
 
@@ -46,6 +48,8 @@ function ResponsiveAppBar() {
     dispatch(setUserInfo(null))
     navigate("/")
   }
+
+  const userInfo = useSelector((state: RootState) => state.userInfo.value);
 
   return (
     <AppBar position="sticky">
@@ -150,7 +154,7 @@ function ResponsiveAppBar() {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Box>
-                  <Typography color="white">ID:{localStorage.getItem('userId')}</Typography>
+                  <Typography color="white">ID:{userInfo.userId}</Typography>
                 </Box>
                 </IconButton>
             </Tooltip>

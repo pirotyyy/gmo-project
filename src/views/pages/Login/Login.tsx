@@ -48,7 +48,7 @@ const Login = () => {
         navigate('/add_form');
       }
 
-      localStorage.setItem('userId', getMeRes.data.userId);
+      // localStorage.setItem('userId', getMeRes.data.userId);
       // 一覧画面が用意できたらパスを変更
       setIsLoad(false);
     } catch (error: any) {
