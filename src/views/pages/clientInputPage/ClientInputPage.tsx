@@ -26,14 +26,13 @@ const ClientInputPage = () => {
     (state: RootState) => state.selectedTemplate.value
   );
 
-  const userInfo = useSelector(
-    (state: RootState) => state.userInfo.value
-  );
+  const userInfo = useSelector((state: RootState) => state.userInfo.value);
 
   const defaultMessage = selectedTemplate
     ? `以上の文章から、${selectedTemplate.format} だけを抜き出して、JSON形式で出力してください。keyとvalueは文字列で出力してください。抜き出せないときは“”で出力してください。`
     : '';
-    
+
+
   const [message, setMessage] = useState<string>('');
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const handleMessageChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -55,10 +54,10 @@ const ClientInputPage = () => {
       }
     );
 
-    dispatch(setProjectId(res.data.projectId))
+    dispatch(setProjectId(res.data.projectId));
 
-    const clientMessage = message + defaultMessage
-    dispatch(setClientMessage(clientMessage))
+    const clientMessage = message + defaultMessage;
+    dispatch(setClientMessage(clientMessage));
 
     const responseText = await chat(clientMessage);
     dispatch(setResponseText(responseText));
@@ -122,6 +121,22 @@ const ClientInputPage = () => {
               style={{ marginBottom: '20px' }}
             />
             <SelectTemplate />
+            <TextField
+              label='項目一覧'
+              disabled
+              fullWidth
+              multiline
+              rows={1}
+              variant='outlined'
+              margin='dense'
+              value={selectedTemplate ? selectedTemplate.format : ''}
+              style={{ marginBottom: '20px' }}
+              sx={{
+                "& .MuiInputBase-input.Mui-disabled": {
+                  WebkitTextFillColor: "#000000",
+                },
+              }}
+            />
             <LoadingButton
               loading={isLoad}
               variant='contained'
