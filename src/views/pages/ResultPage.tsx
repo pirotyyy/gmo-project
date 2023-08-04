@@ -28,9 +28,11 @@ const ResultPage = () => {
     (state: RootState) => state.projectId.value
   );
 
+  const userInfo = useSelector((state: RootState) => state.userInfo.value);
+
   const [saveForm, setSaveForm] = useState<saveDto>({
     projectId: projectId,
-    userId: localStorage.getItem("userId") ? localStorage.getItem("userId") : "",
+    userId: localStorage.getItem("userId") ? localStorage.getItem("userId") : userInfo.userId,
     name: "",
     text: Object.entries(location.state?.result || {})
     .map(([key, value]) => `${key}:\n${value}`)
@@ -54,7 +56,11 @@ const ResultPage = () => {
   const handleOnSubmit = async () => {
     try {
       setIsLoad(true)
-      await apiClient.put('https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project', saveForm)      
+      await apiClient.put('https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project', saveForm, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })      
       setIsLoad(false)
       navigate('/allProjects')
     } catch (error: any) {

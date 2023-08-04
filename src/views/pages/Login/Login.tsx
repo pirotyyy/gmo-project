@@ -37,7 +37,12 @@ const Login = () => {
       localStorage.setItem('access_token', loginRes.data.token);
 
       const getMeRes = await apiClient.get(
-        'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/user/getme'
+        'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/user/getme',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        }
       );
       dispatch(setUserInfo(getMeRes.data));
       console.log(getMeRes.data);

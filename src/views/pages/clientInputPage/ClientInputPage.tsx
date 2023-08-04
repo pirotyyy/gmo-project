@@ -51,6 +51,11 @@ const ClientInputPage = () => {
         // userId: localStorage.getItem('userId'),
         userId: userInfo.userId,
         templateId: selectedTemplate.templateId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
       }
     );
 
@@ -69,7 +74,11 @@ const ClientInputPage = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await apiClient.get(API_URL);
+        const response = await apiClient.get(API_URL, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        });
         dispatch(setResponseTemplate(response.data));
       } catch (error) {
         console.log(error);
