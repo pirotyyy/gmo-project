@@ -7,9 +7,9 @@ import { useEffect } from "react";
 import "./RegistUser.css"
 import {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Alert, Snackbar, Box, TextField, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { apiClient } from '../../../libs/apiClient.ts';
 
 interface RegistForm {
   userId: string
@@ -67,7 +67,7 @@ const RegistUser = () => {
     }
     console.log(registForm)
     try {
-      await axios.post(
+      await apiClient.post(
         "https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/user",
         registForm
       )

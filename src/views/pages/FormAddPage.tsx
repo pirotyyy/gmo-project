@@ -11,7 +11,7 @@ import {
   Grid,
   Container
 } from "@mui/material";
-import axios from "axios";
+import { apiClient } from "../../libs/apiClient";
 interface FormItem {
   name: string;
   type: "text" | "number";
@@ -61,7 +61,7 @@ const FormAddPage: React.FC = () => {
       format: formItemNames
     };
     try {
-      await axios.post(
+      await apiClient.post(
         "https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/template/",
         dto
       );

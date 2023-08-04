@@ -10,13 +10,13 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import './clientInputPage.css';
 import SelectTemplate from './SelectTempleteBar/SelectTemplate';
-import axios from 'axios';
 import { setResponseTemplate } from '../../../redux/slice/responseTemplateSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { setProjectId } from '../../../redux/slice/projectIdSlice';
 import { setClientMessage } from '../../../redux/slice/clientMessageSlice';
+import { apiClient } from '../../../libs/apiClient';
 
 const ClientInputPage = () => {
   const API_URL =
@@ -45,7 +45,7 @@ const ClientInputPage = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoad(true);
-    const res = await axios.post(
+    const res = await apiClient.post(
       'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project',
       {
         // userId: localStorage.getItem('userId'),
@@ -69,7 +69,7 @@ const ClientInputPage = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await axios.get(API_URL);
+        const response = await apiClient.get(API_URL);
         dispatch(setResponseTemplate(response.data));
       } catch (error) {
         console.log(error);

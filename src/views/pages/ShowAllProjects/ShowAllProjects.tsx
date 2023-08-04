@@ -10,11 +10,11 @@ import Typography from '@mui/material/Typography';
 import Hedder from "./../../molecules/Hedder/Hedder";
 import "./ShowAllProjects.css"
 import { useEffect } from 'react';
-import axios from "axios";
 import Grid from '@mui/material/Grid';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import Paper from '@mui/material/Paper';
 import { ListSubheader } from '@mui/material';
+import { apiClient } from '../../../libs/apiClient';
 
 const drawerWidth = 240;
 
@@ -35,7 +35,7 @@ export default function ShowAllProjects() {
   useEffect(()=>{
     //promise状態（データ取得中）を回避
     const fetchPosts= async ()=>{
-      const result= await axios.get(`https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project/${localStorage.getItem('userId')}`)
+      const result= await apiClient.get(`https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project/${localStorage.getItem('userId')}`)
       console.log(result)
       setProjects(result.data)
     }

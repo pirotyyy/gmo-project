@@ -2,13 +2,13 @@ import LoginHedder from '../../molecules/LoginHedder/LoginHedder.tsx';
 import Paper from '@mui/material/Paper';
 import { useState } from 'react';
 import './Login.css';
-import axios from 'axios';
 import { Alert, Box, Grid, Snackbar, TextField } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUserInfo } from '../../../redux/slice/userInfoSlice.ts';
 import Link from '@mui/material/Link';
+import { apiClient } from '../../../libs/apiClient.ts';
 
 interface LoginForm {
   userId: string;
@@ -30,19 +30,14 @@ const Login = () => {
   const handleSubmit = async () => {
     setIsLoad(true);
     try {
-      const loginRes = await axios.post(
+      const loginRes = await apiClient.post(
         'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/auth/login',
         loginForm
       );
       localStorage.setItem('access_token', loginRes.data.token);
 
-      const getMeRes = await axios.get(
-        'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/user/getme',
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          },
-        }
+      const getMeRes = await apiClient.get(
+        'https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/user/getme'
       );
       dispatch(setUserInfo(getMeRes.data));
       console.log(getMeRes.data);

@@ -8,10 +8,10 @@ import StepLabel from "@mui/material/StepLabel";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useSelector } from 'react-redux';
 import { RootState } from "../../redux/store";
+import { apiClient } from "../../libs/apiClient";
 
 interface saveDto {
   projectId: string
@@ -54,7 +54,7 @@ const ResultPage = () => {
   const handleOnSubmit = async () => {
     try {
       setIsLoad(true)
-      await axios.put('https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project', saveForm)      
+      await apiClient.put('https://wadq9bmi23.execute-api.ap-northeast-1.amazonaws.com/dev/project', saveForm)      
       setIsLoad(false)
       navigate('/allProjects')
     } catch (error: any) {
